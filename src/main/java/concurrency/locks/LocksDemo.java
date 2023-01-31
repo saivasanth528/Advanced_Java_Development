@@ -23,6 +23,8 @@ public class LocksDemo {
         ExecutorService executorService = Executors.newCachedThreadPool();
         IntStream.range(0, 1000)
                 .forEach(i -> executorService.submit(syncCounter::increment));
+//        IntStream.range(0, 1000)
+//                .forEach(i -> executorService.submit(() -> syncCounter.increment()));
         executorService.shutdown();
         System.out.println("syncCounter count = " + syncCounter.getCount());
     }

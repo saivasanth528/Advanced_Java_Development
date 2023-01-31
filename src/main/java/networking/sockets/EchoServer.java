@@ -9,6 +9,7 @@ import java.net.Socket;
 
 public class EchoServer {
     public static void main(String[] args) {
+        // try with resources block
         try (
                 ServerSocket serverSocket = new ServerSocket(9000);
                 Socket client = serverSocket.accept();

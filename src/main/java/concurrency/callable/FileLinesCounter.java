@@ -13,7 +13,10 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class FileLinesCounter {
-    private Path dir = Paths.get("concurrency");
+
+    // This mechanism of callables and futures will help in processing of independent set of tasks
+    // and post process when we get the result like downloading a large file
+    private Path dir =  Paths.get("src", "main", "java", "concurrency");
 
     public long computeTotalNoOfLines() {
         long total = 0;
@@ -42,6 +45,7 @@ public class FileLinesCounter {
     }
 
     private Callable<Long> callableCounter(Path p) {
+        // lambda expression matches the signature of callable
         return () -> Files.lines(p).count();
     }
 

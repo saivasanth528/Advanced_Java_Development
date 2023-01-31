@@ -4,7 +4,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class LockedCounter {
     private int count;
-
+    // explicit lock added in java 1.5
     private ReentrantLock reentrantLock = new ReentrantLock();
 
     public void increment() {

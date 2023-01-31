@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCPersonDAO implements PersonDAO {
@@ -13,7 +14,7 @@ public class JDBCPersonDAO implements PersonDAO {
     private static final String DRIVER = "com.sql.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/hr";
     private static final String USER = "root";
-    private static final String PASSWORD = "Vasanth@28";
+    private static final String PASSWORD = "*******";
 
     // https://stackoverflow.com/a/19837588/7408451
     public JDBCPersonDAO() {
@@ -28,7 +29,22 @@ public class JDBCPersonDAO implements PersonDAO {
 
     @Override
     public List<Person> findAll() {
-        return null;
+        List<Person> people = new ArrayList<>();
+        // try with resources block
+        try (
+                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement pst = conn.prepareStatement("SELECT * FROM hr.PEOPLE")
+        ) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                people.add(new Person(rs.getInt(1), rs.getString(2)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return people;
+
     }
 
     @Override
@@ -82,11 +98,35 @@ public class JDBCPersonDAO implements PersonDAO {
 
     @Override
     public void delete(Person p) {
-
+        try (
+                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement pst = conn.prepareStatement(
+                        "DELETE FROM hr.PEOPLE WHERE id=?")
+        ) {
+            pst.setInt(1, p.getId());
+            int uc = pst.executeUpdate();
+            if (uc != 1) throw new SQLException("No rows removed");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Integer> getIds() {
-        return null;
+        List<Integer> ids = new ArrayList<>();
+        try (
+                Connection conn = DriverManager.getConnection(URL,USER, PASSWORD);
+                PreparedStatement pst = conn.prepareStatement("select id from hr.PEOPLE");
+        ) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt(1));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ids;
     }
 }

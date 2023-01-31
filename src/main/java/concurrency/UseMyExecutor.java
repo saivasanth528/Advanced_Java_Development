@@ -15,6 +15,7 @@ public class UseMyExecutor {
                 .collect(Collectors.toList());
         ExecutorService service = Executors.newCachedThreadPool();
         runnables.forEach(service::execute);
+//        runnables.forEach(runnable -> service.execute(runnable));
         service.shutdown();
     }
 }

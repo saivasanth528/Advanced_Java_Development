@@ -22,8 +22,13 @@ public class HR {
         employees.stream()
                 .map(Employee::getName)
                 .forEach(System.out::println);
+//        employees.add(new Employee("Vasanth"));
     }
 
+
+    // Predicate<? super Employee> accepts Predicate that tests Employee
+    // and any superclass of Employee, including Object
+    // https://stackoverflow.com/questions/58220717/types-of-argument-to-be-passed-to-super-t-in-java
     public static void printFilteredEmployee(List<? extends Employee> employees,
             Predicate<? super Employee> predicate) {
         for(Employee e: employees) {
@@ -32,6 +37,7 @@ public class HR {
             }
         }
     }
+
 
 
 }

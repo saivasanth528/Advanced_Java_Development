@@ -18,7 +18,7 @@ public class FilesDemo {
         Files.deleteIfExists(Paths.get("sub1", "sub2"));
         Files.deleteIfExists(Paths.get("sub1"));
 
-        Path sourceDir = Paths.get("newio");
+        Path sourceDir = Paths.get("src", "main", "java", "newioDemo");
         Path dataFile = sourceDir.resolve("data.txt");
 
         System.out.println(Files.lines(dataFile).collect(Collectors.toList()));
@@ -31,8 +31,8 @@ public class FilesDemo {
 
         Files.deleteIfExists(other);
 
-        Path javaDir = Paths.get("newio");
-
+        Path javaDir = Paths.get("src", "main", "java");
+        // visit all the files in walk folder, traverses through DFS approach
         try(Stream<Path> entries = Files.walk(javaDir)) {
             entries.forEach(System.out::println);
         }
